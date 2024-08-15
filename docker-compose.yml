@@ -1,0 +1,31 @@
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=mydb
+    volumes:
+      - tripdb:/var/lib/postgresql/data
+    networks:
+      - db-network
+  app:
+    build: .
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/usr/app
+    environment:
+      - TRIP_DATABASE_URL=${TRIP_DATABASE_URL}
+    depends_on:
+      - db
+    networks:
+      - db-network
+
+volumes:
+  tripdb:
+
+networks:
+  db-network:
+    driver: bridge
