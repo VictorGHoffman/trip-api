@@ -1,6 +1,7 @@
 const express = require("express")
 const app = express.Router()
 const { PrismaClient } = require("@prisma/client")
+const HttpStatus = require("../utils/HttpStatus")
 
 const prisma = new PrismaClient()
 
@@ -31,14 +32,14 @@ app.get("/users/:id", async (req, res) => {
         })
         res.send(user)
     } catch (error) {
-        res.sendStatus(404)
+        res.sendStatus(HttpStatus.NOT_FOUND)
     }
 })
 
 app.post("/users", async (req, res) => {
     const user = req.body
     await prisma.user.create({ data: user })
-    res.sendStatus(201)
+    res.sendStatus(HttpStatus.CREATED)
 })
 
 app.put("/users/:id", async (req, res) => {
@@ -51,9 +52,9 @@ app.put("/users/:id", async (req, res) => {
             },
             data: user
         })
-        res.sendStatus(200)
+        res.sendStatus(HttpStatus.OK)
     } catch (error) {
-        res.sendStatus(404)
+        res.sendStatus(HttpStatus.NOT_FOUND)
     }
 })
 
@@ -68,9 +69,9 @@ app.delete("/users/:id", async (req, res) => {
                 status: 0
             }
         })
-        res.sendStatus(200)
+        res.sendStatus(HttpStatus.NO_CONTENT)
     } catch (error) {
-        res.sendStatus(404)
+        res.sendStatus(HttpStatus.NOT_FOUND)
     }
 })
 
