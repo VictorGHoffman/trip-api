@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
@@ -9,13 +9,15 @@ datasource db {
 }
 
 model Admin {
-  id        Int @id @default(autoincrement())
-  username  String  @db.VarChar(255)
-  password  String  @db.VarChar(255)
+  id       Int    @id @default(autoincrement())
+  username String @db.VarChar(255)
+  password String @db.VarChar(255)
+  status   Int    @default(1) @db.SmallInt()
 }
 
 model User {
-  id        Int @id @default(autoincrement())
-  username  String  @db.VarChar(255)
-  password  String  @db.VarChar(255)
+  id       Int    @id @default(autoincrement())
+  username String @db.VarChar(255)
+  password String @db.VarChar(255)
+  status   Int    @default(1) @db.SmallInt()
 }
