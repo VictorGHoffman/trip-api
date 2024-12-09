@@ -16,8 +16,65 @@ model Admin {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  username String @db.VarChar(255)
-  password String @db.VarChar(255)
-  status   Int    @default(1) @db.SmallInt()
+  id         Int       @id @default(autoincrement())
+  first_name String    @db.VarChar(100)
+  last_name  String    @db.VarChar(100)
+  email      String    @db.VarChar(255)
+  password   String    @db.VarChar(255)
+  status     Int       @default(1) @db.SmallInt()
+  gender     String    @db.VarChar(1)
+  birth_date DateTime  @db.Date
+  Booking    Booking[]
+}
+
+model Country {
+  id          Int     @id @default(autoincrement())
+  name        String  @db.VarChar(100)
+  description String? @db.VarChar(255)
+  City        City[]
+}
+
+model City {
+  id         Int     @id @default(autoincrement())
+  name       String  @db.VarChar(255)
+  country    Country @relation(fields: [country_id], references: [id])
+  country_id Int
+  Hotel      Hotel[]
+}
+
+model Hotel {
+  id      Int       @id @default(autoincrement())
+  name    String    @db.VarChar(255)
+  city    City      @relation(fields: [city_id], references: [id])
+  city_id Int
+  room    Room      @relation(fields: [room_id], references: [id])
+  room_id Int
+  rating  Decimal   @default(0) @db.Decimal(2, 2)
+  Booking Booking[]
+}
+
+model Room {
+  id     Int     @id @default(autoincrement())
+  price  Float   @db.DoublePrecision
+  number String  @db.VarChar(10)
+  status Int     @default(1) @db.SmallInt()
+  Bed    Bed[]
+  Hotel  Hotel[]
+}
+
+model Bed {
+  id      Int    @id @default(autoincrement())
+  name    String @db.VarChar(50)
+  room    Room   @relation(fields: [room_id], references: [id])
+  room_id Int
+}
+
+model Booking {
+  id       Int      @id @default(autoincrement())
+  hotel    Hotel    @relation(fields: [hotel_id], references: [id])
+  hotel_id Int
+  user     User     @relation(fields: [user_id], references: [id])
+  user_id  Int
+  from     DateTime @db.Date
+  to       DateTime @db.Date
 }
