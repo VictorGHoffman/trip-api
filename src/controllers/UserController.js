@@ -1,11 +1,8 @@
 const express = require("express")
 const app = express.Router()
-const { PrismaClient } = require("@prisma/client")
 const HttpStatus = require("../utils/HttpStatus")
 const getLimitAndPage = require("../utils/PageLimit")
 const UserService = require("../services/UserService")
-
-const prisma = new PrismaClient()
 
 app.get("/users", async (req, res) => {
     let { limit, page } = getLimitAndPage(req.query.limit, req.query.page)
