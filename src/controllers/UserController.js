@@ -24,8 +24,13 @@ app.get("/users/:id", async (req, res) => {
 
 app.post("/users", async (req, res) => {
     const user = req.body
-    await UserService.create(user)
-    res.sendStatus(HttpStatus.CREATED)
+    try {
+        await UserService.create(user)
+        res.sendStatus(HttpStatus.CREATED)
+    }
+    catch (error) {
+        res.sendStatus(HttpStatus.BAD_REQUEST)
+    }
 })
 
 app.put("/users/:id", async (req, res) => {
