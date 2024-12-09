@@ -1,6 +1,8 @@
 const { PrismaClient } = require("@prisma/client")
+const bcrypt = require("bcrypt")
 
 const prisma = new PrismaClient()
+const saltRounds = 10
 
 class UserService {
     async findAll(limit, page, orderBy) {
@@ -34,21 +36,24 @@ class UserService {
         return user
     }
 
-    async create(data) {
-        const user = await prisma.user.create({
-            data
+    async create(user) {
+        const salt = await bcrypt.genSaltSync(saltRounds)
+        user.password = await bcrypt.hashSync(user.password, salt)
+
+        const createdUser = await prisma.user.create({
+            data: user
         })
-        return user
+        return createdUser
     }
 
-    async update(id, data) {
-        const user = await prisma.user.update({
+    async update(id, user) {
+        const updatedUser = await prisma.user.update({
             where: {
                 id: Number(id)
             },
-            data
+            data: user
         })
-        return user
+        return updatedUser
     }
 
     async delete(id) {
