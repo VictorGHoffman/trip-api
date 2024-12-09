@@ -2,34 +2,23 @@ const express = require("express")
 const app = express.Router()
 const { PrismaClient } = require("@prisma/client")
 const HttpStatus = require("../utils/HttpStatus")
+const getLimitAndPage = require("../utils/PageLimit")
+const UserService = require("../services/UserService")
 
 const prisma = new PrismaClient()
 
 app.get("/users", async (req, res) => {
-    const users = await prisma.user.findMany({
-        select: {
-            id: true,
-            username: true
-        },
-        where: {
-            status: 1
-        }
-    })
+    let { limit, page } = getLimitAndPage(req.query.limit, req.query.page)
+    const users = await UserService.findAll(limit, page, req.query.sort)
+
     res.send(users)
 })
 
 app.get("/users/:id", async (req, res) => {
     const id = req.params.id
+
     try {
-        const user = await prisma.user.findUniqueOrThrow({
-            select: {
-                id: true,
-                username: true
-            },
-            where: {
-                id: Number(id)
-            },
-        })
+        const user = await UserService.findById(id)
         res.send(user)
     } catch (error) {
         res.sendStatus(HttpStatus.NOT_FOUND)
@@ -38,7 +27,7 @@ app.get("/users/:id", async (req, res) => {
 
 app.post("/users", async (req, res) => {
     const user = req.body
-    await prisma.user.create({ data: user })
+    await UserService.create(user)
     res.sendStatus(HttpStatus.CREATED)
 })
 
@@ -46,12 +35,7 @@ app.put("/users/:id", async (req, res) => {
     const id = req.params.id
     const user = req.body
     try {
-        await prisma.user.update({
-            where: {
-                id: Number(id)
-            },
-            data: user
-        })
+        await UserService.update(id, user)
         res.sendStatus(HttpStatus.OK)
     } catch (error) {
         res.sendStatus(HttpStatus.NOT_FOUND)
@@ -61,14 +45,7 @@ app.put("/users/:id", async (req, res) => {
 app.delete("/users/:id", async (req, res) => {
     const id = req.params.id
     try {
-        await prisma.user.update({
-            where: {
-                id: Number(id)
-            },
-            data: {
-                status: 0
-            }
-        })
+        await UserService.delete(id)
         res.sendStatus(HttpStatus.NO_CONTENT)
     } catch (error) {
         res.sendStatus(HttpStatus.NOT_FOUND)
