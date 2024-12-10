@@ -18,7 +18,8 @@ app.get("/users/:id", async (req, res) => {
         const user = await UserService.findById(id)
         res.send(user)
     } catch (error) {
-        res.sendStatus(HttpStatus.NOT_FOUND)
+        res.status(error.status || HttpStatus.NOT_FOUND)
+        res.send(error.message)
     }
 })
 
@@ -29,7 +30,8 @@ app.post("/users", async (req, res) => {
         res.sendStatus(HttpStatus.CREATED)
     }
     catch (error) {
-        res.sendStatus(HttpStatus.BAD_REQUEST)
+        res.status(error.status || HttpStatus.BAD_REQUEST)
+        res.send(error.message)
     }
 })
 
@@ -40,7 +42,8 @@ app.put("/users/:id", async (req, res) => {
         await UserService.update(id, user)
         res.sendStatus(HttpStatus.OK)
     } catch (error) {
-        res.sendStatus(HttpStatus.NOT_FOUND)
+        res.status(error.status || HttpStatus.NOT_FOUND)
+        res.send(error.message)
     }
 })
 
@@ -50,7 +53,8 @@ app.delete("/users/:id", async (req, res) => {
         await UserService.delete(id)
         res.sendStatus(HttpStatus.NO_CONTENT)
     } catch (error) {
-        res.sendStatus(HttpStatus.NOT_FOUND)
+        res.status(error.status || HttpStatus.NOT_FOUND)
+        res.send(error.message)
     }
 })
 
