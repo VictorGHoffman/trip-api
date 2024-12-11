@@ -18,7 +18,7 @@ class BaseController {
                 const data = await this.service.findAll(limit, page, req.query.sort)
                 res.send(data)
             } catch (error) {
-                res.status(error.status || HttpStatus.NOT_FOUND)
+                res.status(error.statusCode || HttpStatus.NOT_FOUND)
                 res.send(error.message)
             }
         })
@@ -29,7 +29,7 @@ class BaseController {
                 const data = await this.service.findById(id)
                 res.send(data)
             } catch (error) {
-                res.status(error.status || HttpStatus.NOT_FOUND)
+                res.status(error.statusCode || HttpStatus.NOT_FOUND)
                 res.send(error.message)
             }
         })
@@ -40,7 +40,7 @@ class BaseController {
                 await this.service.create(data)
                 res.sendStatus(HttpStatus.CREATED)
             } catch (error) {
-                res.status(error.status || HttpStatus.BAD_REQUEST)
+                res.status(error.statusCode || HttpStatus.INTERNAL_SERVER_ERROR)
                 res.send(error.message)
             }
         })
@@ -52,7 +52,7 @@ class BaseController {
                 await this.service.update(id, data)
                 res.sendStatus(HttpStatus.OK)
             } catch (error) {
-                res.status(error.status || HttpStatus.NOT_FOUND)
+                res.status(error.statusCode || HttpStatus.NOT_FOUND)
                 res.send(error.message)
             }
         })
@@ -63,7 +63,7 @@ class BaseController {
                 await this.service.delete(id)
                 res.sendStatus(HttpStatus.NO_CONTENT)
             } catch (error) {
-                res.status(error.status || HttpStatus.NOT_FOUND)
+                res.status(error.statusCode || HttpStatus.NOT_FOUND)
                 res.send(error.message)
             }
         })
