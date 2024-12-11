@@ -6,6 +6,7 @@ const adminController = require("./controllers/AdminController")
 const roomController = require("./controllers/RoomController")
 const hotelController = require("./controllers/HotelController")
 const countryController = require("./controllers/CountryController")
+const cityController = require("./controllers/CityController")
 
 app.use(express.json())
 
@@ -14,6 +15,7 @@ app.use("/", adminController)
 app.use("/", roomController)
 app.use("/", hotelController)
 app.use("/", countryController)
+app.use("/", cityController)
 
 app.get("/", async (req, res) => {
     res.send('oi')
