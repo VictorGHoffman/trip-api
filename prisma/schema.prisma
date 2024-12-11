@@ -44,13 +44,14 @@ model City {
 }
 
 model Hotel {
-  id      Int       @id @default(autoincrement())
-  name    String    @db.VarChar(255)
-  city    City      @relation(fields: [city_id], references: [id])
-  city_id Int
-  rating  Decimal   @default(0) @db.Decimal(2, 2)
-  booking Booking[]
-  room    Room[]
+  id              Int       @id @default(autoincrement())
+  name            String    @db.VarChar(255)
+  city            City      @relation(fields: [city_id], references: [id])
+  city_id         Int
+  average_rating  Decimal   @default(0) @db.Decimal(2, 2)
+  quantity_rating Int       @default(0) @db.Integer
+  booking         Booking[]
+  room            Room[]
 }
 
 model Room {
@@ -78,4 +79,5 @@ model Booking {
   user_id  Int
   from     DateTime @db.Date
   to       DateTime @db.Date
+  rating   Decimal  @default(0) @db.Decimal(2, 2)
 }
