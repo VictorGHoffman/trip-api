@@ -25,14 +25,14 @@ model User {
   status     Int       @default(1) @db.SmallInt()
   gender     String    @db.VarChar(1)
   birth_date DateTime  @db.Date
-  Booking    Booking[]
+  booking    Booking[]
 }
 
 model Country {
   id          Int     @id @default(autoincrement())
   name        String  @db.VarChar(100)
   description String? @db.VarChar(255)
-  City        City[]
+  city        City[]
 }
 
 model City {
@@ -40,7 +40,7 @@ model City {
   name       String  @db.VarChar(255)
   country    Country @relation(fields: [country_id], references: [id])
   country_id Int
-  Hotel      Hotel[]
+  hotel      Hotel[]
 }
 
 model Hotel {
@@ -49,8 +49,8 @@ model Hotel {
   city    City      @relation(fields: [city_id], references: [id])
   city_id Int
   rating  Decimal   @default(0) @db.Decimal(2, 2)
-  Booking Booking[]
-  Room    Room[]
+  booking Booking[]
+  room    Room[]
 }
 
 model Room {
@@ -60,7 +60,7 @@ model Room {
   status   Int    @default(1) @db.SmallInt()
   hotel    Hotel  @relation(fields: [hotel_id], references: [id])
   hotel_id Int
-  Bed      Bed[]
+  bed      Bed[]
 }
 
 model Bed {

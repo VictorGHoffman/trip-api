@@ -19,6 +19,10 @@ class RoomService {
         const room = await prisma.room.findUniqueOrThrow({
             where: {
                 id: Number(id)
+            },
+            include: {
+                hotel: true,
+                bed: true
             }
         })
         return room

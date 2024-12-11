@@ -23,7 +23,7 @@ class HotelService {
             where: {
                 id: Number(id)
             },
-            include: { Room: true, city: true }
+            include: { room: true, city: true }
         })
         return hotel
     }

@@ -23,7 +23,7 @@ class CountryService {
                 id: Number(id)
             },
             include: {
-                City: true
+                city: true
             }
         })
         return country
