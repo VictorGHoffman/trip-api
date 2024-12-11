@@ -1,6 +1,7 @@
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+  provider        = "prisma-client-js"
+  binaryTargets   = ["native", "linux-musl-openssl-3.0.x"]
+  previewFeatures = ["relationJoins"]
 }
 
 datasource db {
@@ -47,19 +48,19 @@ model Hotel {
   name    String    @db.VarChar(255)
   city    City      @relation(fields: [city_id], references: [id])
   city_id Int
-  room    Room      @relation(fields: [room_id], references: [id])
-  room_id Int
   rating  Decimal   @default(0) @db.Decimal(2, 2)
   Booking Booking[]
+  Room    Room[]
 }
 
 model Room {
-  id     Int     @id @default(autoincrement())
-  price  Float   @db.DoublePrecision
-  number String  @db.VarChar(10)
-  status Int     @default(1) @db.SmallInt()
-  Bed    Bed[]
-  Hotel  Hotel[]
+  id       Int    @id @default(autoincrement())
+  price    Float  @db.DoublePrecision
+  number   String @db.VarChar(10)
+  status   Int    @default(1) @db.SmallInt()
+  hotel    Hotel  @relation(fields: [hotel_id], references: [id])
+  hotel_id Int
+  Bed      Bed[]
 }
 
 model Bed {

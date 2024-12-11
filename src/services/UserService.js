@@ -52,10 +52,9 @@ class UserService {
 
         user.birth_date = new Date(user.birth_date)
 
-        const createdUser = await prisma.user.create({
+        await prisma.user.create({
             data: user
         })
-        return createdUser
     }
 
     async update(id, user) {
@@ -66,13 +65,12 @@ class UserService {
         user.password = await bcrypt.hashSync(user.password, salt)
 
         user.birth_date = new Date(user.birth_date)
-        const updatedUser = await prisma.user.update({
+        await prisma.user.update({
             where: {
                 id: Number(id)
             },
             data: user
         })
-        return updatedUser
     }
 
     async delete(id) {
