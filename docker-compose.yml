@@ -1,6 +1,7 @@
 services:
   db:
     image: postgres:latest
+    container_name: trip-db
     ports:
       - 5432:${POSTGRES_PORT}
     environment:
@@ -12,7 +13,8 @@ services:
       - db-network
   app:
     build: .
-    command: ["sh", "-c", "npm install && npm run start"]
+    container_name: trip-api
+    command: [ "sh", "-c", "npm install && npm run start" ]
     ports:
       - 8080:8080
     volumes:
@@ -23,6 +25,8 @@ services:
       - db
     networks:
       - db-network
+    stdin_open: true
+    tty: true
 
 volumes:
   tripdb:
