@@ -1,6 +1,7 @@
 const express = require("express")
 
 const app = express()
+const cors = require("cors")
 const userController = require("./controllers/UserController")
 const adminController = require("./controllers/AdminController")
 const roomController = require("./controllers/RoomController")
@@ -10,6 +11,7 @@ const cityController = require("./controllers/CityController")
 const bedController = require("./controllers/BedController")
 
 app.use(express.json())
+app.use(cors())
 
 app.use("/", userController)
 app.use("/", adminController)
