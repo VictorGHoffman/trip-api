@@ -2,6 +2,9 @@ const express = require("express")
 
 const app = express()
 const cors = require("cors")
+const swaggerUi = require('swagger-ui-express')
+const swaggerDocs = require('./swagger.json')
+
 const userController = require("./controllers/UserController")
 const adminController = require("./controllers/AdminController")
 const roomController = require("./controllers/RoomController")
@@ -22,6 +25,8 @@ app.use("/", countryController)
 app.use("/", cityController)
 app.use("/", bedController)
 app.use("/", BookingController)
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
 app.get("/", async (req, res) => {
     res.send('oi')
