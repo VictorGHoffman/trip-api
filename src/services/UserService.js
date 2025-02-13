@@ -44,7 +44,6 @@ class UserService {
     }
 
     async create(user) {
-        user.gender = user.gender.toUpperCase()
         await UserServiceHelper.validate(user)
 
         const salt = await bcrypt.genSaltSync(saltRounds)
@@ -58,7 +57,6 @@ class UserService {
     }
 
     async update(id, user) {
-        user.gender = user.gender.toUpperCase()
         await UserServiceHelper.validate(user)
 
         const salt = await bcrypt.genSaltSync(saltRounds)

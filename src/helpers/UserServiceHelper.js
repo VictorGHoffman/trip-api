@@ -26,9 +26,10 @@ class UserServiceHelper {
     }
 
     validateGender(user) {
-        if (user.gender !== "M" && user.gender !== "F") {
+        if (user.gender.toUpperCase() !== "M" && user.gender.toUpperCase() !== "F") {
             throw new ValidationError("Gender must be 'M' or 'F'", HttpStatus.BAD_REQUEST)
         }
+        user.gender = user.gender.toUpperCase()
     }
 
     async validateEmail(user) {
