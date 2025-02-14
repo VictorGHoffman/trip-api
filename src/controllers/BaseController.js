@@ -7,8 +7,8 @@ class BaseController {
     constructor (route, service) {
         this.service = service
         this.app = app
-        this.registerRoutes(route)
         this.registerCustomRoutes()
+        this.registerRoutes(route)
     }
 
     registerRoutes(route) {
